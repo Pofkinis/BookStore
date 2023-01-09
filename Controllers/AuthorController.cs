@@ -7,7 +7,6 @@ using Microsoft.EntityFrameworkCore;
 namespace Books.Controllers;
 
 [ApiController]
-[Route("[controller]/[action]")]
 public class AuthorController : ControllerBase
 {
     private readonly IAuthorService _service;
@@ -17,13 +16,13 @@ public class AuthorController : ControllerBase
         _service = service;
     }
     
-    [HttpGet]
+    [HttpGet("authors")]
     public async Task<ActionResult<IEnumerable<Author>>> Get()
     {
         return Ok(await _service.GetAllAuthors());
     }
     
-    [HttpGet]
+    [HttpGet("authors/{id}")]
     public async Task<ActionResult<Author>> GetById(int id)
     {
         var author = await _service.GetById(id);
@@ -36,7 +35,7 @@ public class AuthorController : ControllerBase
         return Ok(author);
     }
     
-    [HttpPost]
+    [HttpPost("authors")]
     public async Task<ActionResult<Author>> Create(Author author)
     {
         await _service.CreateAuthor(author);
@@ -44,7 +43,7 @@ public class AuthorController : ControllerBase
         return CreatedAtAction(nameof(Create), author);
     }
     
-    [HttpPut]
+    [HttpPut("authors")]
     public async Task<ActionResult<Author>> Update(Author author)
     {
         var updatedAuthor = await _service.UpdateAuthor(author);
@@ -57,7 +56,7 @@ public class AuthorController : ControllerBase
         return NoContent();
     }
     
-    [HttpDelete]
+    [HttpDelete("authors")]
     public async Task<ActionResult<Author>> Delete(int id)
     {
         var result = await _service.DeleteAuthor(id);
